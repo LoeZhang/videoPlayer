@@ -1,5 +1,6 @@
 package cn.jzvd;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -7,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -44,9 +44,9 @@ public class JzvdStd extends Jzvd {
 
     private static final int AUTO_TIME = 5000;
 
-    private boolean isEnableScale = true;
+    private boolean canScale = true;
 
-    private boolean isEnableSpeed = true;
+    private boolean canSpeed = true;
 
     public ImageView backButton;
     public ProgressBar loadingProgressBar;
@@ -261,7 +261,11 @@ public class JzvdStd extends Jzvd {
         super.onStatePlaying();
         changeUiToPlayingClear();
 
-        mediaInterface.setSpeed(speed);
+        try {
+            mediaInterface.setSpeed(speed);
+        }catch (Exception e)
+        {
+        }
     }
 
     @Override
@@ -693,6 +697,16 @@ public class JzvdStd extends Jzvd {
     }
 
     protected void clickBack() {
+        if(isStaticFull)
+        {
+            try
+            {
+                ((Activity)getContext()).finish();
+            }catch (Exception e)
+            {
+            }
+            return;
+        }
         backPress();
     }
 
@@ -746,7 +760,7 @@ public class JzvdStd extends Jzvd {
             clarity.setVisibility(View.VISIBLE);
         }
 
-        if(isEnableScale)
+        if(canScale)
         {
             textScale.setVisibility(View.VISIBLE);
             textScale.setText(getScaleName());
@@ -755,7 +769,7 @@ public class JzvdStd extends Jzvd {
             textScale.setVisibility(View.GONE);
         }
 
-        if(isEnableSpeed)
+        if(canSpeed)
         {
             textSpeed.setVisibility(View.VISIBLE);
             textSpeed.setText(speed + "倍");
@@ -1313,13 +1327,13 @@ public class JzvdStd extends Jzvd {
         }
     }
 
-    public void setEnableScale(boolean enableScale)
+    public void setCanScale(boolean enableScale)
     {
-        isEnableScale = enableScale;
+        canScale = enableScale;
     }
 
-    public void setEnableSpeed(boolean enableSpeed)
+    public void setCanSpeed(boolean enableSpeed)
     {
-        isEnableSpeed = enableSpeed;
+        canSpeed = enableSpeed;
     }
 }

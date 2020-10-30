@@ -1,5 +1,6 @@
 package cn.jzvd;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
@@ -66,6 +67,9 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
     public static long lastAutoFullscreenTime = 0;
     public static int ON_PLAY_PAUSE_TMP_STATE = 0;//这个考虑不放到库里，去自定义
     public static int backUpBufferState = -1;
+
+    boolean isStaticFull = false;
+
     public static AudioManager.OnAudioFocusChangeListener onAudioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {//是否新建个class，代码更规矩，并且变量的位置也很尴尬
         @Override
         public void onAudioFocusChange(int focusChange) {
@@ -193,6 +197,10 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
                 CURRENT_JZVD.mediaInterface.pause();
             }
         }
+    }
+
+    public static void startFullscreenDirectly(Context context, String url, String title) {
+        startFullscreenDirectly(context, JzvdStd.class, new JZDataSource(url, title));
     }
 
     public static void startFullscreenDirectly(Context context, Class _class, String url, String title) {
@@ -351,6 +359,17 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
     }
 
     protected void clickFullscreen() {
+        if(isStaticFull)
+        {
+            try
+            {
+                ((Activity)getContext()).finish();
+            }catch (Exception e)
+            {
+            }
+            return;
+        }
+
         Log.i(TAG, "onClick fullscreen [" + this.hashCode() + "] ");
         if (state == STATE_AUTO_COMPLETE) return;
         if (screen == SCREEN_FULLSCREEN) {
@@ -1157,5 +1176,10 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
         } catch (Exception e)
         {
         }
+    }
+
+    public void setStaticFull(boolean staticFull)
+    {
+        isStaticFull = staticFull;
     }
 }

@@ -1,15 +1,13 @@
 package com.loe.test
 
 import android.content.Context
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import cn.jzvd.JZDataSource
-import cn.jzvd.JZUtils
-import cn.jzvd.Jzvd
+import android.support.v7.app.AppCompatActivity
+import cn.jzvd.*
 import cn.jzvd.Jzvd.JZAutoFullscreenListener
-import cn.jzvd.JzvdStd
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity()
@@ -36,9 +34,18 @@ class MainActivity : AppCompatActivity()
 
 
 
-//        jzVideo.setEnableScale(false)
-//        jzVideo.setEnableSpeed(false)
+        jzVideo.setCanScale(false)
+        jzVideo.setCanSpeed(false)
         jzVideo.setSpeed(1.1f)
+
+
+
+        button.setOnClickListener()
+        {
+            startActivity(Intent(this, LoeVideoActivity::class.java)
+                .putExtra("url", m3u8Url2)
+                .putExtra("title", "全屏视频"))
+        }
     }
 
     override fun onResume()
