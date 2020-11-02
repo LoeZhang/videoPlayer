@@ -134,8 +134,8 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:paddingVertical="15dp"
-            android:paddingHorizontal="15dp"
-            android:layout_marginRight="-25dp"
+            android:paddingHorizontal="10dp"
+            android:layout_marginRight="-32dp"
             android:scaleType="fitStart"
             android:src="@drawable/jz_click_back_selector" />
 
@@ -163,8 +163,8 @@
             android:layout_height="match_parent"
             android:clickable="true"
             android:textSize="14dp"
-            android:text="1.0倍"
-            android:paddingRight="20dp"
+            android:text="X 1.0"
+            android:paddingRight="15dp"
             android:paddingLeft="15dp"
             android:textColor="#ffffff"
             android:gravity="center" />

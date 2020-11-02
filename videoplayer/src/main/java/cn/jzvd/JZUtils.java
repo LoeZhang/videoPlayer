@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -196,4 +197,17 @@ public class JZUtils {
         return dm.heightPixels;
     }
 
+    public static boolean isScreenPortrait(Activity activity){
+        int or = activity.getRequestedOrientation();
+        switch (or) {
+            case ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE :// 横屏
+            case ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE:
+                return false;
+            case ActivityInfo.SCREEN_ORIENTATION_PORTRAIT :// 竖屏
+            case ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT:
+                return true;
+            default:
+                return true;
+        }
+    }
 }

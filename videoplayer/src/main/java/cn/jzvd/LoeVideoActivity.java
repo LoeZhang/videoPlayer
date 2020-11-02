@@ -1,46 +1,67 @@
 package cn.jzvd;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class LoeVideoActivity extends AppCompatActivity
+public class LoeVideoActivity extends Activity
 {
-    private Jzvd.JZAutoFullscreenListener mSensorEventListener;
-    private SensorManager mSensorManager;
-
     private JzvdStd jzVideo;
+
+    private VideoPlayConfig config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        try
+        {
+            config = (VideoPlayConfig) getIntent().getSerializableExtra("config");
+        }catch (Exception e)
+        {
+        }
+
+        if(config == null) config = new VideoPlayConfig(getIntent().getStringExtra("url"));
+
+        if(config.isLandscape())
+        {
+            if(config.isSensor())
+            {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+            }else
+            {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            }
+        }else
+        {
+            if(config.isSensor())
+            {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+            }else
+            {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
+        }
+
         setContentView(R.layout.loe_video_activity);
 
-        mSensorEventListener = new Jzvd.JZAutoFullscreenListener();
-        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
         jzVideo = findViewById(R.id.jzVideo);
 
-        String url = getIntent().getStringExtra("url");
-        String title = getIntent().getStringExtra("title");
-        if(url == null) url = "";
-        if(title == null) title = "";
-        boolean loop = getIntent().getBooleanExtra("loop", false);
-        boolean canSpeed = getIntent().getBooleanExtra("canSpeed", true);
-        boolean canScale = getIntent().getBooleanExtra("canScale", true);
-        float speed = getIntent().getFloatExtra("speed", 1f);
 
         jzVideo.setStaticFull(true);
 
-        jzVideo.setCanSpeed(canSpeed);
-        jzVideo.setCanScale(canScale);
-        jzVideo.setSpeed(speed);
+        jzVideo.setCanSpeed(config.isCanSpeed());
+        jzVideo.setCanScale(config.isCanScale());
+        jzVideo.setSpeed(config.getSpeed());
+        jzVideo.setShowUI(config.isShowUI());
 
-        JZDataSource jzDataSource = new JZDataSource(url, title);
-        jzDataSource.looping = loop;
+        JZDataSource jzDataSource = new JZDataSource(config.getUrl(), config.getTitle());
+        jzDataSource.looping = config.isLoop();
 
         jzVideo.setUp(jzDataSource, JzvdStd.SCREEN_FULLSCREEN);
 
@@ -60,8 +81,6 @@ public class LoeVideoActivity extends AppCompatActivity
     public void onResume()
     {
         super.onResume();
-        Sensor accelerometerSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mSensorManager.registerListener(mSensorEventListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
         Jzvd.goOnPlayOnResume();
     }
 
@@ -69,14 +88,13 @@ public class LoeVideoActivity extends AppCompatActivity
     public void onPause()
     {
         super.onPause();
-        mSensorManager.unregisterListener(mSensorEventListener);
-        JZUtils.clearSavedProgress(this, null);
         Jzvd.goOnPlayOnPause();
     }
 
     @Override
     protected void onDestroy()
     {
+        JZUtils.clearSavedProgress(this, null);
         jzVideo.release();
         super.onDestroy();
     }

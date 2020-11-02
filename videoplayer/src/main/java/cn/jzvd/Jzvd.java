@@ -463,6 +463,10 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
         float absDeltaX = Math.abs(deltaX);
         float absDeltaY = Math.abs(deltaY);
         if (screen == SCREEN_FULLSCREEN) {
+
+            mScreenWidth = getResources().getDisplayMetrics().widthPixels;
+            mScreenHeight = getResources().getDisplayMetrics().heightPixels;
+
             //拖动的是NavigationBar和状态栏
             if (mDownX > JZUtils.getScreenWidth(getContext()) || mDownY < JZUtils.getStatusBarHeight(getContext())) {
                 return;
@@ -470,7 +474,7 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
             if (!mChangePosition && !mChangeVolume && !mChangeBrightness) {
                 if (absDeltaX > THRESHOLD || absDeltaY > THRESHOLD) {
                     cancelProgressTimer();
-                    if (absDeltaX >= THRESHOLD && mDownX >= mScreenHeight * 0.16f && mDownX <= mScreenHeight * 0.84f) {
+                    if (absDeltaX >= THRESHOLD && mDownX >= mScreenWidth * 0.16f && mDownX <= mScreenWidth * 0.84f) {
                         // 全屏模式下的CURRENT_STATE_ERROR状态下,不响应进度拖动事件.
                         // 否则会因为mediaplayer的状态非法导致App Crash
                         if (state != STATE_ERROR) {
@@ -479,7 +483,7 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
                         }
                     } else {
                         //如果y轴滑动距离超过设置的处理范围，那么进行滑动事件处理
-                        if (mDownX < mScreenHeight * 0.16f)
+                        if (mDownX < mScreenWidth * 0.16f)
                         {//左侧改变亮度
                             mChangeBrightness = true;
                             WindowManager.LayoutParams lp = JZUtils.getWindow(getContext()).getAttributes();
@@ -494,7 +498,7 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
                                 mGestureDownBrightness = lp.screenBrightness * 255;
                                 Log.i(TAG, "current activity brightness: " + mGestureDownBrightness);
                             }
-                        } else if(mDownX > mScreenHeight * 0.84f)
+                        } else if(mDownX > mScreenWidth * 0.84f)
                             {//右侧改变声音
                             mChangeVolume = true;
                             mGestureDownVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -505,7 +509,7 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
         }
         if (mChangePosition) {
             long totalTimeDuration = getDuration();
-            float f = (float) Math.pow(deltaX / mScreenWidth, 3);
+            float f = (float) Math.pow(deltaX / mScreenWidth, 3) * 5;
             mSeekTimePosition = (int) (mGestureDownPosition + totalTimeDuration * f);
             if (mSeekTimePosition > totalTimeDuration)
                 mSeekTimePosition = totalTimeDuration;

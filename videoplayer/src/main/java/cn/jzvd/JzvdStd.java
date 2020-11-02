@@ -48,8 +48,10 @@ public class JzvdStd extends Jzvd {
 
     private boolean canSpeed = true;
 
+    private boolean isShowUI = true;
+
     public ImageView backButton;
-    public ProgressBar loadingProgressBar;
+    public View loadingProgressBar;
 //    public ProgressBar bottomProgressBar;
     public TextView titleTextView;
     public ImageView posterImageView;
@@ -259,7 +261,13 @@ public class JzvdStd extends Jzvd {
     @Override
     public void onStatePlaying() {
         super.onStatePlaying();
-        changeUiToPlayingClear();
+        if(isShowUI)
+        {
+            changeUiOpen();
+        }else
+        {
+            changeUiToPlayingClear();
+        }
 
         try {
             mediaInterface.setSpeed(speed);
@@ -586,7 +594,7 @@ public class JzvdStd extends Jzvd {
         {
             speedPopWindow.dismiss();
         }
-        textSpeed.setText(speed + "倍");
+        textSpeed.setText("X " + speed);
     }
 
     /**
@@ -772,7 +780,7 @@ public class JzvdStd extends Jzvd {
         if(canSpeed)
         {
             textSpeed.setVisibility(View.VISIBLE);
-            textSpeed.setText(speed + "倍");
+            textSpeed.setText("X " + speed);
         }else
         {
 
@@ -1113,6 +1121,18 @@ public class JzvdStd extends Jzvd {
         }
     }
 
+    public void changeUiOpen() {
+        switch (screen) {
+            case SCREEN_NORMAL:
+            case SCREEN_FULLSCREEN:
+                setAllControlsVisiblity(View.VISIBLE, View.VISIBLE, View.INVISIBLE,
+                        View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
+                break;
+            case SCREEN_TINY:
+                break;
+        }
+    }
+
     public void setAllControlsVisiblity(int topCon, int bottomCon, int startBtn, int loadingPro,
                                         int posterImg, int bottomPro, int retryLayout) {
         topContainer.setVisibility(topCon);
@@ -1335,5 +1355,10 @@ public class JzvdStd extends Jzvd {
     public void setCanSpeed(boolean enableSpeed)
     {
         canSpeed = enableSpeed;
+    }
+
+    public void setShowUI(boolean showUI)
+    {
+        isShowUI = showUI;
     }
 }

@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity()
 //        jzVideo.setUp(jzDataSource, JzvdStd.SCREEN_NORMAL, JZMediaAliyun::class.java)
 
 
-
-
         jzVideo.setCanScale(false)
         jzVideo.setCanSpeed(false)
         jzVideo.setSpeed(1.1f)
@@ -42,9 +40,7 @@ class MainActivity : AppCompatActivity()
 
         button.setOnClickListener()
         {
-            startActivity(Intent(this, LoeVideoActivity::class.java)
-                .putExtra("url", m3u8Url2)
-                .putExtra("title", "全屏视频"))
+            LoeVideoPlayer.play(this, m3u8Url, "好的", true)
         }
     }
 
