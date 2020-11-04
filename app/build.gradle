@@ -42,5 +42,5 @@ dependencies {
     implementation 'com.alivc.conan:AlivcConan:0.9.5'
 
     implementation project(':videoplayer')
-//    implementation 'com.github.LoeZhang:videoplayer:0.1.0'
+//    implementation 'com.github.LoeZhang:videoplayer:0.2.0'
 }
