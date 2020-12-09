@@ -1031,6 +1031,13 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
 
     }
 
+    private CallBack onBackListener;
+
+    public void setOnBackListener(CallBack onBackListener)
+    {
+        this.onBackListener = onBackListener;
+    }
+
     public void gotoNormalScreen() {//goback本质上是goto
         gobakFullscreenTime = System.currentTimeMillis();//退出全屏
         ViewGroup vg = (ViewGroup) (JZUtils.scanForActivity(jzvdContext)).getWindow().getDecorView();
@@ -1044,6 +1051,11 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
         JZUtils.showStatusBar(jzvdContext);
         JZUtils.setRequestedOrientation(jzvdContext, NORMAL_ORIENTATION);
         JZUtils.showSystemUI(jzvdContext);
+
+        if(onBackListener != null)
+        {
+            onBackListener.onBack();
+        }
     }
 
     public void setScreenNormal() {//TODO 这块不对呀，还需要改进，设置flag之后要设置ui，不设置ui这么写没意义呀
