@@ -1,6 +1,6 @@
 package cn.jzvd;
 
-interface CallBack
+public interface CallBack
 {
     void onBack();
 }
