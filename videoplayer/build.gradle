@@ -23,6 +23,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    api 'com.aliyun.sdk.android:AliyunPlayer:4.5.0-full'
+    api 'com.alivc.conan:AlivcConan:0.9.5'
 }
 
 repositories {

@@ -63,7 +63,8 @@ public class LoeVideoActivity extends Activity
         JZDataSource jzDataSource = new JZDataSource(config.getUrl(), config.getTitle());
         jzDataSource.looping = config.isLoop();
 
-        jzVideo.setUp(jzDataSource, JzvdStd.SCREEN_FULLSCREEN);
+//        jzVideo.setUp(jzDataSource, JzvdStd.SCREEN_FULLSCREEN);
+        jzVideo.setUp(jzDataSource, JzvdStd.SCREEN_FULLSCREEN, JZMediaAliyun.class);
 
         JZUtils.hideSystemUI(this);
 

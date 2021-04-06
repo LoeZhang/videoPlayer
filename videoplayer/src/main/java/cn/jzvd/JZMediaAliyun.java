@@ -1,4 +1,4 @@
-package com.loe.test;
+package cn.jzvd;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,9 +17,6 @@ import com.aliyun.player.bean.InfoCode;
 import com.aliyun.player.nativeclass.CacheConfig;
 import com.aliyun.player.nativeclass.PlayerConfig;
 import com.aliyun.player.source.UrlSource;
-
-import cn.jzvd.JZMediaInterface;
-import cn.jzvd.Jzvd;
 
 /**
  * usage: 阿里云播放器内核

@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity()
 
         val m3u8Url = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
         val m3u8Url1 = "http://jzvd.nathen.cn/342a5f7ef6124a4a8faf00e738b8bee4/cf6d9db0bd4d41f59d09ea0a81e918fd-5287d2089db37e62345123a1be272f8b.mp4"
-        val m3u8Url2 = "https://jzvd.nathen.cn/video/460bad24-170c5bc6956-0007-1823-c86-de200.mp4"
+        val m3u8Url2 = "http://192.168.203.147/test/large.mp4"
         val jzDataSource = JZDataSource(m3u8Url2, "测试视频")
 //        jzDataSource.looping = true
 
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity()
 
         button.setOnClickListener()
         {
-            LoeVideoPlayer.play(this, m3u8Url, "好的", true)
+            LoeVideoPlayer.play(this, "http://192.168.203.147/test/big.mp4", "好的", true)
         }
     }
 

@@ -3,6 +3,9 @@ package cn.jzvd;
 import android.content.Context;
 import android.content.Intent;
 
+/**
+ *  maven { url 'https://maven.aliyun.com/repository/releases' }
+ */
 public class LoeVideoPlayer
 {
     public static void play(Context context, String url)
